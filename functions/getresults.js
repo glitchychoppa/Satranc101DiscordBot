@@ -100,13 +100,13 @@ function getresults(t_id) {
             .setDescription(`**🏆Kazananlar🏆**`)
             .setThumbnail('https://cdn.discordapp.com/attachments/1065015635299537028/1066379362414379100/Satranc101Logo_1.png')
             .addFields(
-              { name: `🥇Birinci`, value: (checkFirst ? '<@' + result1.discordID + '>' : 'https://lichess.org/@/' + jsondata[0].username) }
+              { name: `🥇Birinci`, value: (checkFirst ? '<@' + result1.discordID + `> - ${jsondata[0].username}`  : 'https://lichess.org/@/' + jsondata[0].username) }
             )
             .addFields(
-              { name: `🥈İkinci`, value: (checkSecond ? '<@' + result2.discordID + '>' : 'https://lichess.org/@/' + jsondata[1].username) }
+              { name: `🥈İkinci`, value: (checkSecond ? '<@' + result2.discordID + `> - ${jsondata[1].username}` : 'https://lichess.org/@/' + jsondata[1].username) }
             )
             .addFields(
-              { name: `🥉Üçüncü`, value: (checkThird ? '<@' + result3.discordID + '>' : 'https://lichess.org/@/' + jsondata[2].username) }
+              { name: `🥉Üçüncü`, value: (checkThird ? '<@' + result3.discordID + `> - ${jsondata[2].username}`  : 'https://lichess.org/@/' + jsondata[2].username) }
             )
             .addFields(
               { name: `Turnuva Linki`, value: 'https://lichess.org/tournament/' + t_id }
