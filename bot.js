@@ -1,5 +1,4 @@
 const { discord_token, dbConnectionString } = require('./config.json');
-const { connect } = require('mongoose');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const fs = require('fs');
 
@@ -19,7 +18,3 @@ client.handleEvents();
 client.handleCommands();
 client.handleComponents();
 client.login(discord_token);
-
-(async () => {
-    await connect(dbConnectionString).catch(console.error);
-})();

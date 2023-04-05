@@ -1,6 +1,6 @@
 const { ActivityType } = require('discord.js');
-const { PuzzleSystem } = require('../../systems/puzzleSystem/puzzleSystem');
-const { puzzleChannelId } = require('../../config.json');
+const { PuzzleSystem } = require('../systems/puzzleSystem/puzzleSystem');
+const { puzzleChannelId } = require('../config.json');
 
 module.exports = {
     name: 'ready',
@@ -11,7 +11,7 @@ module.exports = {
 
         // schedule puzzle
         var x = PuzzleSystem.start(client, puzzleChannelId);
-		x.startRandomPuzzle();
+		x.schedule();
 
         // rpc (rich presence status)
         client.user.setPresence({ activities: [{ name: 'starting the bot', type: ActivityType.Watching }], status: 'online' });
