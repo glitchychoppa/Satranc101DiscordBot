@@ -21,7 +21,7 @@ function announceTourney(t_id) {
 
                 if (hours == 0) {
                     if (minutes == 0) {
-                        str1 = 'Az Sonra'
+                        str1 = ' AZ SONRA '
                     }
                     else {
                         str1 = minutes + ' Dakika Sonra';

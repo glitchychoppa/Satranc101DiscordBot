@@ -73,11 +73,18 @@ module.exports = {
       //API'a gönderilecek parametreler ekleniyor.
       const params = new URLSearchParams();
 
+      //Turnuvanın hangi takımda yapılacağı giriliyor.
       params.append("conditions.teamMember.teamId", lichessTeamID);
+      //Turnuvanın adı giriliyor.
       params.append("name", interaction.options.getString("name"));
+      //Maçların tempoları (sayaç) giriliyor.
       params.append("clockTime", interaction.options.getString("clocktime"));
+      //Hamle başına süre artışı giriliyor.
       params.append("clockIncrement", interaction.options.getString("clockincrement"));
+      //Turnuvanın toplam süresi giriliyor.
       params.append("minutes", interaction.options.getString("minutes"));
+      //Turnuvaya katılmak için gereken minimum puanlı oyun giriliyor.
+      params.append('conditions.nbRatedGame.nb', 5)
 
       //startDate veya waitMinutes yöntemi seçiliyor.
       if (interaction.options.getString("startdate") == null) {
@@ -93,8 +100,10 @@ module.exports = {
 
       params.append("rated", false); //Sunucu içi turnuvalar puansız olarak ayarlanıyor.
 
-      const descStr = '[Discord](https://discord.gg/jkr529f4mE) [Instagram](https://www.instagram.com/satranc.101)\n';
-      params.append("description", descStr + interaction.options.getString("description"));
+      //Açıklama kısmı yazılıyor.
+      const descStr = '[Discord Sunucumuz](https://discord.gg/jkr529f4mE)\n[Instagram Sayfamız](https://www.instagram.com/satranc.101)\n';
+      params.append("description",
+        interaction.options.getString("description") != null ? descStr + interaction.options.getString("description") : descStr);
 
       //API'a post isteği gönderiliyor ve yanıt ile bilgilendirme mesajı hazırlanıyor.
       axios.post("https://lichess.org/api/tournament", params, { headers: { Authorization: "Bearer " + lichess_token } })
@@ -105,7 +114,7 @@ module.exports = {
             "\nBağlantı: https://lichess.org/tournament/" +
             response.data.id +
             "\nBaşlangıç: " +
-            new Date(Date.parse(response.data.startsAt)).toLocaleString() +
+            new Date(Date.parse(response.data.startsAt)).toLocaleString('tr-TR') +
             "\nSüre: " +
             response.data.minutes +
             "\nTempo: " +
@@ -115,14 +124,18 @@ module.exports = {
 
           interaction.reply(informationMessage);
 
-
-          // date1 = duyuru tarihi
-          const date1 = new Date(Date.parse(response.data.startsAt));
-          date1.setSeconds(date1.getSeconds() - (30 * 60));
-          console.log(`announcement date: ${date1}`)
-          const job1 = schedule.scheduleJob(date1, function () {
+          if (response.data.secondsToStart <= 30 * 60) {
             ann.announceTourney(response.data.id);
-          });
+            console.log('TURNUVA DUYURUSU ATILDI')
+          } else {
+            // date1 = duyuru tarihi
+            const date1 = new Date(Date.parse(response.data.startsAt));
+            date1.setSeconds(date1.getSeconds() - (30 * 60));
+            console.log(`announcement date: ${date1}`)
+            const job1 = schedule.scheduleJob(date1, function () {
+              ann.announceTourney(response.data.id);
+            });
+          }
 
           // date2 = sonuçların açıklanma tarihi
           const date2 = new Date(Date.parse(response.data.startsAt));
