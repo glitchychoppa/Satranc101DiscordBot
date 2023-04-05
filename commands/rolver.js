@@ -17,7 +17,7 @@ module.exports = {
 					{ name: 'Şampiyon', value: 'champion' }
 				)),
 
-	async execute(interaction) {
+	async execute(interaction, client) {
 
 		switch (interaction.options.getString('rol')) {
 			case 'plus2k':

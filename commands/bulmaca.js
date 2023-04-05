@@ -11,7 +11,7 @@ module.exports = {
             option.setName("hamle")
                 .setDescription("Hamlelerinizi SAN formatinda yazin.")
                 .setRequired(true)),
-    async execute(interaction) {
+    async execute(interaction, client) {
 
         let activePuzzle = PuzzleSystem.instance?.activePuzzle
 

@@ -45,14 +45,14 @@ class ChessboardBuilder {
     }
 
     async generateBuffer() {
-        var opt = this.options
+        var opt = this.options;
 
-        opt.flipped = this.pov === "b"
+        opt.flipped = this.pov === "b";
 
-        let generator = new ChessImageGenerator(opt)
-        generator.highlightSquares(this.highlight)
-        await generator.loadFEN(this.fen)
-        let buffer = await generator.generateBuffer()
+        let generator = new ChessImageGenerator(opt);
+        generator.highlightSquares(this.highlight);
+        await generator.loadFEN(this.fen);
+        let buffer = await generator.generateBuffer();
 
         return buffer
     }

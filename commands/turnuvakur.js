@@ -64,7 +64,7 @@ module.exports = {
         )
     ),
 
-  execute(interaction) {
+  execute(interaction, client) {
 
     //Kullanıcının yetkisi, gerekli rol ile kontrol ediliyor.
     if (interaction.member.roles.cache.has(tournamentPermRoleID)) {

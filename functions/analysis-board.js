@@ -1,5 +1,5 @@
 const { default: axios } = require("axios");
-const { lichess_token } = require("../config.json")
+const { lichess_token } = require("../../config.json")
 
 function importGame(pgn) {
     const params2 = new URLSearchParams();

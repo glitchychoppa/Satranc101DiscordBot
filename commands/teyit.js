@@ -22,7 +22,7 @@ module.exports = {
 				.setDescription('Kullanici adiniz.')
 				.setRequired(true)
 		),
-	async execute(interaction) {
+	async execute(interaction, client) {
 
 		//kullanıcıdan teyit için isteyeceğimiz metni bir değişkene atıyoruz.
 		const userName = interaction.user.username + '#' + interaction.user.discriminator;

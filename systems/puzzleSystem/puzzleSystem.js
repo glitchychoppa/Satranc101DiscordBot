@@ -58,7 +58,7 @@ class PuzzleSystem {
             .setFen(this.activePuzzle.getInitialFen())
             .setHighlight([moveFrom, moveTo])
             .setPov(this.activePuzzle.playerSide)
-            .generateBuffer()
+            .generateBuffer();
 
         await channel.send({ files: [buffer], content: `Bulmaca zamanı! Rating: ||${this.activePuzzle.rating}||\nÇözmek için: \`/bulmaca <SAN>\`` })
     }
