@@ -3,18 +3,17 @@ const { pmall } = require("./pmall");
 
 const { default: axios } = require('axios');
 const { Client, GatewayIntentBits, AttachmentBuilder, EmbedBuilder, time } = require('discord.js');
-const { discord_token, announcementChannelID,tournamentPermRoleID } = require('../config.json');
+const { discord_token, announcementChannelID, tournamentPermRoleID } = require('../config.json');
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
+client.login(discord_token);
 
 function announceTourney(t_id) {
     axios.get('https://lichess.org/api/tournament/' + t_id)
         .then(function (response) {
 
-            client.login(discord_token);
-
-            client.on("ready", () => {
-
+            try {
                 const hours = parseInt(hourFunc(response.data.secondsToStart));
                 const minutes = parseInt(minutesFunc(response.data.secondsToStart));
                 var str1;
@@ -47,10 +46,12 @@ function announceTourney(t_id) {
                 client.channels.cache.get(announcementChannelID).send({ content: '@everyone', embeds: [announceEmbed] });
 
                 pmall('Turnuvamız ' + str1 + ' Başlıyor!\nhttps://lichess.org/tournament/' + response.data.id);
-            })
-        })
-        .catch(function (error) {
-            client.channels.cache.get(announcementChannelID).send(`<@${tournamentPermRoleID}> duyuru yapılamadı, manuel yapın.`);
+
+
+            } catch (error) {
+                client.channels.cache.get(announcementChannelID).send(`<@${tournamentPermRoleID}> duyuru yapılamadı, manuel yapın.`);
+            }
+
         });
 }
 

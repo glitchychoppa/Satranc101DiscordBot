@@ -72,19 +72,12 @@ module.exports = {
 
       //API'a gönderilecek parametreler ekleniyor.
       const params = new URLSearchParams();
-
-      //Turnuvanın hangi takımda yapılacağı giriliyor.
-      params.append("conditions.teamMember.teamId", lichessTeamID);
-      //Turnuvanın adı giriliyor.
-      params.append("name", interaction.options.getString("name"));
-      //Maçların tempoları (sayaç) giriliyor.
-      params.append("clockTime", interaction.options.getString("clocktime"));
-      //Hamle başına süre artışı giriliyor.
-      params.append("clockIncrement", interaction.options.getString("clockincrement"));
-      //Turnuvanın toplam süresi giriliyor.
-      params.append("minutes", interaction.options.getString("minutes"));
-      //Turnuvaya katılmak için gereken minimum puanlı oyun giriliyor.
-      params.append('conditions.nbRatedGame.nb', 5)
+      params.append("conditions.teamMember.teamId", lichessTeamID); //Turnuvanın hangi takımda yapılacağı giriliyor.
+      params.append("name", interaction.options.getString("name")); //Turnuvanın adı giriliyor.
+      params.append("clockTime", interaction.options.getString("clocktime")); //Maçların tempoları (sayaç) giriliyor.
+      params.append("clockIncrement", interaction.options.getString("clockincrement")); //Hamle başına süre artışı giriliyor.
+      params.append("minutes", interaction.options.getString("minutes")); //Turnuvanın toplam süresi giriliyor.
+      params.append('conditions.nbRatedGame.nb', 5); //Turnuvaya katılmak için gereken minimum puanlı oyun giriliyor.
 
       //startDate veya waitMinutes yöntemi seçiliyor.
       if (interaction.options.getString("startdate") == null) {
@@ -124,9 +117,8 @@ module.exports = {
 
           interaction.reply(informationMessage);
 
-          if (response.data.secondsToStart <= 30 * 60) {
+          if (response.data.secondsToStart <= (30 * 60)) {
             ann.announceTourney(response.data.id);
-            console.log('TURNUVA DUYURUSU ATILDI')
           } else {
             // date1 = duyuru tarihi
             const date1 = new Date(Date.parse(response.data.startsAt));

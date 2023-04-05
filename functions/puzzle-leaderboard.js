@@ -4,10 +4,9 @@ const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder
 const { discord_token, dbConnectionString, mongoDB, mongoCol } = require('../config.json');
 const MongoClient = require("mongodb").MongoClient;
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+client.login(discord_token);
 
 async function leaderboard(interaction) {
-
-    client.login(discord_token);
 
     const db_client = new MongoClient(dbConnectionString);
 
@@ -44,10 +43,7 @@ async function leaderboard(interaction) {
 
                 interaction.update({ components: [row] });
 
-                client.on("ready", () => {
-                    client.channels.cache.get(interaction.channelId)
-                        .send('\`\`\`' + lbText + '\`\`\`');
-                })
+                client.channels.cache.get(interaction.channelId).send('\`\`\`' + lbText + '\`\`\`');
             }
         }
     } catch (error) {
