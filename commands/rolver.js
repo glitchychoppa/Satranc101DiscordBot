@@ -7,20 +7,20 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('rolver')
 		.setDescription('Sunucumuzda çeşitli roller alabilirsiniz.')
-		.addStringOption(option =>
-			option.setName('rol')
-				.setDescription('Hesabinizi eşleştirmek istediğiniz platformu seçin.')
-				.setRequired(true)
-				.addChoices(
-					{ name: '2000+', value: 'plus2k' },
-					{ name: 'BirSenedirBurada', value: 'oneYear' },
-					{ name: 'Şampiyon', value: 'champion' }
-				)),
+		.addSubcommand(subcommand => subcommand
+				.setName('2000')
+				.setDescription('Herhangi bir tempoda 2000 puanı geçenler alabilir.'))
+		.addSubcommand(subcommand => subcommand
+				.setName('biryıldırburada')
+				.setDescription('Sunucuda bir yıldır bulunanlar alabilir.'))
+		.addSubcommand(subcommand => subcommand
+				.setName('sampiyon')
+				.setDescription('Turnuva puanı 24\'e ulaşanlar alabilir.')),
 
 	async execute(interaction, client) {
 
-		switch (interaction.options.getString('rol')) {
-			case 'plus2k':
+		switch (interaction.options.getSubcommand()) {
+			case '2000':
 				//member.roles.cache.has('role-id-here');
 				if (!interaction.member.roles.cache.has(plus2kRoleID)) {
 					//kayıtların olduğu tablodan, kullanıcının id'sine göre bir kayıt bulmaya çalışıyor.
@@ -201,7 +201,7 @@ module.exports = {
 				}
 				break;
 
-			case 'oneYear':
+			case 'biryıldırburada':
 				const date = new Date(interaction.member.joinedAt.getTime());
 				const now = Date.now();
 				const difference = now - date;
@@ -239,7 +239,7 @@ module.exports = {
 				}
 				break;
 
-			case 'champion':
+			case 'sampiyon':
 				if (!interaction.member.roles.cache.has(championRoleID)) {
 					const client = new MongoClient(dbConnectionString);
 					try {
