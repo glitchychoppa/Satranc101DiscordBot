@@ -29,7 +29,9 @@ module.exports = {
             }
         };
 
-        axios.get(`https://lichess.org/game/export/${interaction.options.getString('id')}`, config)
+        const gameId = interaction.options.getString('id').slice(0, 8)
+
+        axios.get(`https://lichess.org/game/export/${gameId}`, config)
             .then(response => {
 
                 const userName = interaction.options.getString('taraf') == 'beyaz'
@@ -38,7 +40,7 @@ module.exports = {
                 const userId = interaction.options.getString('taraf') == 'beyaz'
                     ? response.data.players.white.user.id : response.data.players.black.user.id;
 
-                const url = `https://lichess.org/${interaction.options.getString('id')}`;
+                const url = `https://lichess.org/${gameId}`;
 
                 const embed = new EmbedBuilder()
                     .setColor(0x2cee1a)
@@ -47,7 +49,7 @@ module.exports = {
                     .setFields(
                         { name: 'Kullanıcı', value: userName },
                         { name: 'Hesap Linki', value: 'https://lichess.org/@/' + userId },
-                        { name: 'Oyun Linki', value: 'https://lichess.org/' + interaction.options.getString('id') },
+                        { name: 'Oyun Linki', value: url },
                     )
                     .setThumbnail('https://cdn.discordapp.com/attachments/1065015635299537028/1066379362414379100/Satranc101Logo_1.png');
 
@@ -63,10 +65,10 @@ module.exports = {
                 const invalidAccount = new EmbedBuilder()
                     .setColor(0xec0505)
                     .setTitle('Geçersiz ID')
-                    .setDescription(`Geçersiz URL:\nhttps://lichess.org/${interaction.options.getString('id')}`)
+                    .setDescription(`Geçersiz URL:\nhttps://lichess.org/${gameId}`)
                     .setThumbnail('https://cdn.discordapp.com/attachments/1065015635299537028/1066379362414379100/Satranc101Logo_1.png');
 
-                interaction.reply({ 
+                interaction.reply({
                     embeds: [invalidAccount],
                     ephemeral: true
                 });
