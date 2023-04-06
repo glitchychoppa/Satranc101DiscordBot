@@ -24,10 +24,10 @@ module.exports = {
 				//member.roles.cache.has('role-id-here');
 				if (!interaction.member.roles.cache.has(plus2kRoleID)) {
 					//kayıtların olduğu tablodan, kullanıcının id'sine göre bir kayıt bulmaya çalışıyor.
-					const client = new MongoClient(dbConnectionString);
+					const mongoClient = new MongoClient(dbConnectionString);
 
 					try {
-						const result = await client.db(mongoDB).collection(mongoCol).findOne({ discordID: interaction.user.id });
+						const result = await mongoClient.db(mongoDB).collection(mongoCol).findOne({ discordID: interaction.user.id });
 
 						//kayıt bulunursa istenilen rol için yeterlilikler kontrol ediliyor.
 						if (result?.lichessID == null && result?.chesscomID == null) {
@@ -187,7 +187,7 @@ module.exports = {
 						}
 
 					} finally {
-						await client.close();
+						await mongoClient.close();
 					}
 				}
 				else {
@@ -241,9 +241,9 @@ module.exports = {
 
 			case 'sampiyon':
 				if (!interaction.member.roles.cache.has(championRoleID)) {
-					const client = new MongoClient(dbConnectionString);
+					const mongoClient = new MongoClient(dbConnectionString);
 					try {
-						const result = await client.db(mongoDB).collection(mongoCol).findOne({ discordID: interaction.user.id });
+						const result = await mongoClient.db(mongoDB).collection(mongoCol).findOne({ discordID: interaction.user.id });
 						if (result == null) {
 							const noVerif = new EmbedBuilder()
 								.setColor(0xec0505)

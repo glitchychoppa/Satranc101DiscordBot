@@ -4,11 +4,7 @@ const { default: axios } = require('axios');
 const { Client, EmbedBuilder, Colors, GatewayIntentBits } = require('discord.js');
 const { discord_token, reportSessionChannelID } = require('../config.json');
 
-const client = new Client({ intents: 32767 });
-
-client.login(discord_token);
-
-async function startSession(userName, userId, url, description) {
+async function startSession(client, userName, userId, url, description) {
 
     const embed = new EmbedBuilder()
         .setColor(Colors.Grey)

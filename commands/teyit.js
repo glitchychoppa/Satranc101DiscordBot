@@ -52,10 +52,10 @@ module.exports = {
 						if (userName == lcBio?.substring(0, userName.length)) {
 
 							//teyit gerçekleşirse veri tabanı işlemleri başlıyor.
-							const client = new MongoClient(dbConnectionString);
+							const mongoClient = new MongoClient(dbConnectionString);
 							(async function () {
 								try {
-									const result = await client.db(mongoDB).collection(mongoCol).findOne({ discordID: interaction.user.id });
+									const result = await mongoClient.db(mongoDB).collection(mongoCol).findOne({ discordID: interaction.user.id });
 									//üyenin daha önce kaydı yoksa yeni kayıt oluşturuyoruz.
 									if (result == null) {
 
@@ -65,7 +65,7 @@ module.exports = {
 												discordID: interaction.user.id,
 												lichessID: response.data.id
 											}
-											const result2 = await client.db(mongoDB).collection(mongoCol).insertOne(doc);
+											const result2 = await mongoClient.db(mongoDB).collection(mongoCol).insertOne(doc);
 											if (result2.acknowledged) {
 
 												const verifiedEmbed = new EmbedBuilder()
@@ -83,7 +83,7 @@ module.exports = {
 											}
 										}
 										finally {
-											await client.close();
+											await mongoClient.close();
 										}
 									}
 									else {
@@ -92,7 +92,7 @@ module.exports = {
 										if (result.lichessID == null) {
 
 											try {
-												const result2 = await client.db(mongoDB).collection(mongoCol)
+												const result2 = await mongoClient.db(mongoDB).collection(mongoCol)
 													.updateOne({ discordID: interaction.user.id }, { $set: { lichessID: response.data.id } });
 												if (result2.acknowledged) {
 
@@ -111,7 +111,7 @@ module.exports = {
 												}
 											}
 											finally {
-												await client.close();
+												await mongoClient.close();
 											}
 										}
 										else {
@@ -124,7 +124,7 @@ module.exports = {
 														lichessID: interaction.options.getString('id')
 													},
 												};
-												const result3 = await client.db(mongoDB).collection(mongoCol)
+												const result3 = await mongoClient.db(mongoDB).collection(mongoCol)
 													.updateOne({ discordID: interaction.user.id }, updateDoc);
 												console.log(`${result3.matchedCount} document(s) matched the filter, updated ${result3.modifiedCount} document(s)`);
 												if (result3.acknowledged) {
@@ -143,13 +143,13 @@ module.exports = {
 													interaction.reply({ embeds: [dbErrorEmbed] });
 												}
 											} finally {
-												await client.close();
+												await mongoClient.close();
 											}
 										}
 
 									}
 								} finally {
-									await client.close();
+									await mongoClient.close();
 								}
 							})();
 						}
@@ -204,10 +204,10 @@ module.exports = {
 						if (userName == lcBio?.substring(0, userName.length)) {
 
 							//teyit gerçekleşirse veri tabanı işlemleri başlıyor.
-							const client = new MongoClient(dbConnectionString);
+							const mongoClient = new MongoClient(dbConnectionString);
 							(async function () {
 								try {
-									const result = await client.db(mongoDB).collection(mongoCol).findOne({ discordID: interaction.user.id });
+									const result = await mongoClient.db(mongoDB).collection(mongoCol).findOne({ discordID: interaction.user.id });
 									//üyenin daha önce kaydı yoksa yeni kayıt oluşturuyoruz.
 									if (result == null) {
 
@@ -217,7 +217,7 @@ module.exports = {
 												discordID: interaction.user.id,
 												chesscomID: response.data.username
 											}
-											const result2 = await client.db(mongoDB).collection(mongoCol).insertOne(doc);
+											const result2 = await mongoClient.db(mongoDB).collection(mongoCol).insertOne(doc);
 											if (result2.acknowledged) {
 
 												const verifiedEmbed = new EmbedBuilder()
@@ -235,7 +235,7 @@ module.exports = {
 											}
 										}
 										finally {
-											await client.close();
+											await mongoClient.close();
 										}
 									}
 									else {
@@ -244,7 +244,7 @@ module.exports = {
 										if (result.chesscomID == null) {
 
 											try {
-												const result2 = await client.db(mongoDB).collection(mongoCol)
+												const result2 = await mongoClient.db(mongoDB).collection(mongoCol)
 													.updateOne({ discordID: interaction.user.id }, { $set: { chesscomID: response.data.username } });
 												if (result2.acknowledged) {
 
@@ -263,7 +263,7 @@ module.exports = {
 												}
 											}
 											finally {
-												await client.close();
+												await mongoClient.close();
 											}
 										}
 										else {
@@ -276,7 +276,7 @@ module.exports = {
 														chesscomID: interaction.options.getString('id')
 													},
 												};
-												const result3 = await client.db(mongoDB).collection(mongoCol)
+												const result3 = await mongoClient.db(mongoDB).collection(mongoCol)
 													.updateOne({ discordID: interaction.user.id }, updateDoc);
 												console.log(`${result3.matchedCount} document(s) matched the filter, updated ${result3.modifiedCount} document(s)`);
 												if (result3.acknowledged) {
@@ -295,13 +295,13 @@ module.exports = {
 													interaction.reply({ embeds: [dbErrorEmbed] });
 												}
 											} finally {
-												await client.close();
+												await mongoClient.close();
 											}
 										}
 
 									}
 								} finally {
-									await client.close();
+									await mongoClient.close();
 								}
 							})();
 						}
