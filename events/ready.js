@@ -14,28 +14,28 @@ module.exports = {
 		x.schedule();
 
         // rpc (rich presence status)
-        client.user.setPresence({ activities: [{ name: 'starting the bot', type: ActivityType.Watching }], status: 'online' });
+        client.user.setPresence({ activities: [{ name: 'başlatılıyor...', type: ActivityType.Watching }], status: 'online' });
 
         setInterval(() => {
             const options = [
                 {
-                    type: ActivityType.Listening,
-                    text: 'for commands',
-                    status: 'idle'
-                },
-                {
                     type: ActivityType.Playing,
-                    text: 'chess',
-                    status: 'dnd'
+                    text: 'satranç',
+                    status: 'online'
                 },
                 {
                     type: ActivityType.Watching,
-                    text: 'the server',
+                    text: 'kka satranç',
                     status: 'online'
                 },
                 {
                     type: ActivityType.Competing,
-                    text: 'in a tournament',
+                    text: 'satranç101',
+                    status: 'online'
+                },
+                {
+                    type: ActivityType.Listening,
+                    text: 'komutları',
                     status: 'online'
                 }
             ]

@@ -1,8 +1,8 @@
 module.exports = { startSession }
 
 const { default: axios } = require('axios');
-const { Client, EmbedBuilder, Colors, GatewayIntentBits } = require('discord.js');
-const { discord_token, reportSessionChannelID } = require('../config.json');
+const { Client, EmbedBuilder, Colors, roleMention } = require('discord.js');
+const { reportSessionChannelID, refRoleID } = require('../config.json');
 
 async function startSession(client, userName, userId, url, description) {
 
@@ -19,6 +19,7 @@ async function startSession(client, userName, userId, url, description) {
         .setThumbnail('https://cdn.discordapp.com/attachments/1065015635299537028/1066379362414379100/Satranc101Logo_1.png');
 
     const message = await client.channels.cache.get(reportSessionChannelID).send({
+        content: `${roleMention(refRoleID)}`,
         embeds: [embed],
         fetchReply: true
     });
