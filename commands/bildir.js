@@ -67,6 +67,7 @@ module.exports = {
                         });
     
                         await startSession(client,`<@${result.discordID}> - ${userName}`, userId, url, interaction.options.getString('açıklama'));
+                        console.log(`${interaction.user.tag} - ${interaction.user.id} bir oyun bildirdi.`)
     
                     } catch (error) {
                         const embed = new EmbedBuilder()
@@ -86,6 +87,7 @@ module.exports = {
                         });
     
                         await startSession(client,`${userName}`, userId, url, interaction.options.getString('açıklama'));
+                        console.log(`${interaction.user.tag} - ${interaction.user.id} bir oyun bildirdi.`)
                     }
                 }) ();
 

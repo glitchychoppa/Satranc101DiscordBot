@@ -10,8 +10,10 @@ module.exports = {
         console.log(`Logged as ${client.user.tag}`);
 
         // schedule puzzle
-        var x = PuzzleSystem.start(client, puzzleChannelId);
-		x.schedule();
+        var puzzleSystem = PuzzleSystem.start(client, puzzleChannelId);
+		//puzzleSystem.schedule();
+        puzzleSystem.startRandomPuzzle();
+        
 
         // rpc (rich presence status)
         client.user.setPresence({ activities: [{ name: 'başlatılıyor...', type: ActivityType.Watching }], status: 'online' });
@@ -30,7 +32,7 @@ module.exports = {
                 },
                 {
                     type: ActivityType.Competing,
-                    text: 'satranç101',
+                    text: 'Satranç101',
                     status: 'online'
                 },
                 {

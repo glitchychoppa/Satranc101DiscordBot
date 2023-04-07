@@ -130,7 +130,7 @@ class PuzzleSystem {
             const row = new ActionRowBuilder()
                 .addComponents(
                     new ButtonBuilder()
-                        .setCustomId('button1')
+                        .setCustomId('puzzle_lb_button')
                         .setLabel('Skor Tablosunu Göster')
                         .setStyle(ButtonStyle.Secondary),
                 );
