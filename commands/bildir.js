@@ -69,8 +69,23 @@ module.exports = {
                         await startSession(client,`<@${result.discordID}> - ${userName}`, userId, url, interaction.options.getString('açıklama'));
     
                     } catch (error) {
-                        interaction.reply({ content:'Komut çalıştırılamadı, lütfen daha sonra tekrar deneyin.', ephemeral: true })
-                        console.log(error);
+                        const embed = new EmbedBuilder()
+                            .setColor(0x2cee1a)
+                            .setTitle('Şikayetiniz Hakemlere İletildi')
+                            .setURL(url)
+                            .setFields(
+                                { name: 'Kullanıcı', value: `${userName}` },
+                                { name: 'Hesap Linki', value: 'https://lichess.org/@/' + userId },
+                                { name: 'Oyun Linki', value: url },
+                            )
+                            .setThumbnail('https://cdn.discordapp.com/attachments/1065015635299537028/1066379362414379100/Satranc101Logo_1.png');
+    
+                        const message = interaction.reply({
+                            embeds: [embed],
+                            ephemeral: true
+                        });
+    
+                        await startSession(client,`${userName}`, userId, url, interaction.options.getString('açıklama'));
                     }
                 }) ();
 
