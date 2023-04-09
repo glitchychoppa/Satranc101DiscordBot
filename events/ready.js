@@ -11,8 +11,8 @@ module.exports = {
 
         // schedule puzzle
         var puzzleSystem = PuzzleSystem.start(client, puzzleChannelId);
-		//puzzleSystem.schedule();
-        puzzleSystem.startRandomPuzzle();
+		puzzleSystem.schedule();
+        //puzzleSystem.startRandomPuzzle();
         
 
         // rpc (rich presence status)

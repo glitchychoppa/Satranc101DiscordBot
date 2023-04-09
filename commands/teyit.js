@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const { dbConnectionString, mongoDB, mongoCol, lichess_token } = require("../config.json");
+const { dbConnectionString, mongoDB, mongoCol } = require("../config.json");
 const axios = require("axios");
 const MongoClient = require("mongodb").MongoClient;
 
@@ -7,28 +7,22 @@ const MongoClient = require("mongodb").MongoClient;
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('teyit')
-		.setDescription('Lichess hesabinizi teyit edin.')
-		.addStringOption(option =>
-			option.setName('platform')
-				.setDescription('Hesabinizi eşleştirmek istediğiniz platformu seçin.')
-				.setRequired(true)
-				.addChoices(
-					{ name: 'Lichess.org', value: 'lichess_org' },
-					{ name: 'Chess.com', value: 'chess_com' }
-				))
-		.addStringOption((option) =>
-			option
-				.setName('id')
-				.setDescription('Kullanici adiniz.')
-				.setRequired(true)
-		),
+		.setDescription('Hesabinizi teyit edin.')
+		.addSubcommand(subcommand => subcommand
+			.setName('lichess')
+			.setDescription('Lichess hesabinizi teyit edin.')
+			.addStringOption(option => option.setName('id').setDescription('Kullanıcı adiniz.').setRequired(true)))
+		.addSubcommand(subcommand => subcommand
+			.setName('chess')
+			.setDescription('Chess.com hesabinizi teyit edin.')
+			.addStringOption(option => option.setName('id').setDescription('Kullanıcı adiniz.').setRequired(true))),
 	async execute(interaction, client) {
 
 		//kullanıcıdan teyit için isteyeceğimiz metni bir değişkene atıyoruz.
 		const userName = interaction.user.username + '#' + interaction.user.discriminator;
 
-		switch (interaction.options.getString('platform')) {
-			case 'lichess_org':
+		switch (interaction.options.getSubcommand()) {
+			case 'lichess':
 
 				//lichess api ile kullanıcının lichess hesabının biyografi (açıklama) bölümüne erişiyoruz.
 				axios.get('https://lichess.org/api/user/' + interaction.options.getString('id').toLowerCase())
@@ -180,7 +174,7 @@ module.exports = {
 					});
 				break;
 
-			case 'chess_com':
+			case 'chess':
 				//chess api ile kullanıcının lichess hesabının biyografi (açıklama) bölümüne erişiyoruz.
 				axios.get('https://api.chess.com/pub/player/' + interaction.options.getString('id'))
 					.then(function (response) {
@@ -286,7 +280,7 @@ module.exports = {
 														.setTitle('Chess.com Hesabınız Güncellendi!')
 														.setURL('https://www.chess.com/member/' + response.data.username)
 														.setDescription('Hesabınız başarıyla güncellendi.\n'
-															+ result.discordID + ' -> ' + response.data.username)
+															+ result.chesscomID + ' -> ' + response.data.username)
 														.setThumbnail('https://cdn.discordapp.com/attachments/1065015635299537028/1066379362414379100/Satranc101Logo_1.png');
 
 													interaction.reply({ embeds: [updatedEmbed] });
