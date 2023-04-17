@@ -1,9 +1,9 @@
 const { SlashCommandBuilder } = require("discord.js");
 const { lichess_token, tournamentPermRoleID, lichessTeamID } = require("../config.json");
+const { announceTourney } = require('../functions/announcement');
+const { getresults } = require('../functions/getresults');
 const axios = require("axios");
 const schedule = require('node-schedule');
-const ann = require('../functions/announcement');
-const GetResults = require('../functions/getresults');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -118,14 +118,14 @@ module.exports = {
           interaction.reply(informationMessage);
 
           if (response.data.secondsToStart <= (30 * 60)) {
-            ann.announceTourney(response.data.id);
+            announceTourney(response.data.id);
           } else {
             // date1 = duyuru tarihi
             const date1 = new Date(Date.parse(response.data.startsAt));
             date1.setSeconds(date1.getSeconds() - (30 * 60));
             console.log(`announcement date: ${date1}`)
             const job1 = schedule.scheduleJob(date1, function () {
-              ann.announceTourney(response.data.id);
+              announceTourney(response.data.id);
             });
           }
 
@@ -136,7 +136,7 @@ module.exports = {
           console.log(`min: ${response.data.minutes}`);
           console.log(`result announcement date: ${date2}`)
           const job2 = schedule.scheduleJob(date2, function () {
-            GetResults.getresults(response.data.id);
+            getresults(response.data.id);
           });
 
         }).catch(function (e) {

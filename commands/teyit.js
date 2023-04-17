@@ -13,7 +13,7 @@ module.exports = {
 			.setDescription('Lichess hesabinizi teyit edin.')
 			.addStringOption(option => option.setName('id').setDescription('Kullanıcı adiniz.').setRequired(true)))
 		.addSubcommand(subcommand => subcommand
-			.setName('chess')
+			.setName('chess_com')
 			.setDescription('Chess.com hesabinizi teyit edin.')
 			.addStringOption(option => option.setName('id').setDescription('Kullanıcı adiniz.').setRequired(true))),
 	async execute(interaction, client) {
@@ -174,7 +174,7 @@ module.exports = {
 					});
 				break;
 
-			case 'chess':
+			case 'chess_com':
 				//chess api ile kullanıcının lichess hesabının biyografi (açıklama) bölümüne erişiyoruz.
 				axios.get('https://api.chess.com/pub/player/' + interaction.options.getString('id'))
 					.then(function (response) {

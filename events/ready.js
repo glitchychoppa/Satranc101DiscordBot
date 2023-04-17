@@ -9,10 +9,10 @@ module.exports = {
 
         console.log(`Logged as ${client.user.tag}`);
 
-        // schedule puzzle
+        /*// schedule puzzle
         var puzzleSystem = PuzzleSystem.start(client, puzzleChannelId);
 		puzzleSystem.schedule();
-        //puzzleSystem.startRandomPuzzle();
+        //puzzleSystem.startRandomPuzzle();*/
         
 
         // rpc (rich presence status)
